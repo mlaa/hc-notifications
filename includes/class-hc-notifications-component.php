@@ -25,8 +25,10 @@ class HC_Notifications_Component extends BP_Component {
 
 	/**
 	 * Set up globals.
+	 *
+	 * @param array $args Args.
 	 */
-	public function setup_globals() {
+	public function setup_globals( $args = [] ) {
 		parent::setup_globals(
 			[
 				'notification_callback' => [ $this, 'format_notifications' ],

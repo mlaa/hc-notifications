@@ -61,6 +61,11 @@ add_action( 'user_register', 'hc_notifications_user_register' );
 function hc_notifications_groups_join_group( $group_id, $user_id ) {
 	$action  = 'new_group_site_member';
 	$blog_id = get_groupblog_blog_id( $group_id );
+
+	if ( ! $blog_id ) {
+		return;
+	}
+
 	switch_to_blog( $blog_id );
 	$blog_name = get_bloginfo( 'name' );
 	$caps      = array_keys( get_user_meta( $user_id, 'wp_capabilities', true ) );

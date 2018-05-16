@@ -82,7 +82,6 @@ function hc_notifications_groups_join_group( $group_id, $user_id ) {
 			'component_name'   => 'hc_notifications',
 			'component_action' => $action,
 			'item_id'          => $group_id,
-			'allow_duplicate'  => true,
 		]
 	);
 }

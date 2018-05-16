@@ -1,12 +1,17 @@
 <?php
 /**
+ * Component class.
+ *
  * @package Hc_Notifications
  */
 
+/**
+ * Component.
+ */
 class HC_Notifications_Component extends BP_Component {
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 */
 	public function __construct() {
 		parent::start(
@@ -18,10 +23,15 @@ class HC_Notifications_Component extends BP_Component {
 		add_filter( 'bp_notifications_get_registered_components', [ $this, 'filter_registered_components' ] );
 	}
 
+	/**
+	 * Set up globals.
+	 */
 	public function setup_globals() {
-		parent::setup_globals( [
-			'notification_callback' => [ $this, 'format_notifications' ],
-		] );
+		parent::setup_globals(
+			[
+				'notification_callback' => [ $this, 'format_notifications' ],
+			]
+		);
 	}
 
 	/**

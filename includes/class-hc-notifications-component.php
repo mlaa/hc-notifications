@@ -45,8 +45,8 @@ class HC_Notifications_Component extends BP_Component {
 		parent::setup_actions();
 
 		$classes = [
-			 'class-hc-notification-join-group-site.php'         => 'HC_Notification_Join_Group_Site',
-			 'class-hc-notification-new-user-email-settings.php' => 'HC_Notification_New_User_Email_Settings',
+			'class-hc-notification-join-group-site.php' => 'HC_Notification_Join_Group_Site',
+			'class-hc-notification-new-user-email-settings.php' => 'HC_Notification_New_User_Email_Settings',
 		];
 
 		foreach ( $classes as $include => $class ) {
@@ -80,7 +80,10 @@ class HC_Notifications_Component extends BP_Component {
 		if ( 'string' === $format ) {
 			$retval = sprintf( '<a href="%s">%s</a>', $link, $text );
 		} else {
-			$retval = [ 'text' => $text, 'link' => $link, ];
+			$retval = [
+				'text' => $text,
+				'link' => $link,
+			];
 		}
 
 		return $retval;

@@ -6,16 +6,16 @@
  */
 
 /**
- * Implement this class to add a new notification.
+ * Extend this class to add a new notification.
  */
-abstract class HC_Notification {
+class HC_Notification {
 
 	/**
 	 * Component action sent to bp_notifications_add_notification().
 	 *
 	 * @var string
 	 */
-	public static $action = '';
+	public static $action;
 
 	/**
 	 * Set up notification actions.
@@ -29,21 +29,41 @@ abstract class HC_Notification {
 	 *
 	 * This is automatically hooked to the relevant action by HC_Notifications_Component.
 	 *
-	 * @param array $args See HC_Notifications_Component->format_notifications().
+	 * @param string $action            The kind of notification being rendered.
+	 * @param int    $item_id           The primary item id.
+	 * @param int    $secondary_item_id The secondary item id.
+	 * @param int    $total_items       The total number of messaging-related notifications
+	 *                                  waiting for the user.
+	 * @param string $format            Return value format. 'string' for BuddyBar-compatible
+	 *                                  notifications; 'array' for WP Toolbar. Default: 'string'.
 	 *
 	 * @return string Text content of the notification link.
 	 */
-	public static function filter_text( $action, $item_id, $secondary_item_id, $total_items, $format ) {}
+	public static function filter_text( $action, $item_id, $secondary_item_id, $total_items, $format ) {
+		// TODO This function should never be called on this class directly,
+		// so we should probably throw a doing_it_wrong() here.
+		return '';
+	}
 
 	/**
 	 * Filter notification link.
 	 *
 	 * This is automatically hooked to the relevant action by HC_Notifications_Component.
 	 *
-	 * @param array $args See HC_Notifications_Component->format_notifications().
+	 * @param string $action            The kind of notification being rendered.
+	 * @param int    $item_id           The primary item id.
+	 * @param int    $secondary_item_id The secondary item id.
+	 * @param int    $total_items       The total number of messaging-related notifications
+	 *                                  waiting for the user.
+	 * @param string $format            Return value format. 'string' for BuddyBar-compatible
+	 *                                  notifications; 'array' for WP Toolbar. Default: 'string'.
 	 *
 	 * @return string Value of the notification link href attribute.
 	 */
-	public static function filter_link( $action, $item_id, $secondary_item_id, $total_items, $format ) {}
+	public static function filter_link( $action, $item_id, $secondary_item_id, $total_items, $format ) {
+		// TODO This function should never be called on this class directly,
+		// so we should probably throw a doing_it_wrong() here.
+		return '';
+	}
 
 }

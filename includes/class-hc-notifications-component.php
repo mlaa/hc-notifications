@@ -14,6 +14,8 @@ class HC_Notifications_Component extends BP_Component {
 	 * Constructor.
 	 */
 	public function __construct() {
+		require_once 'class-hc-notification.php';
+
 		parent::start(
 			'hc_notifications',
 			'HC Notifications',
@@ -26,14 +28,37 @@ class HC_Notifications_Component extends BP_Component {
 	/**
 	 * Set up globals.
 	 *
-	 * @param array $args Args.
+	 * @param array $args See BP_Component.
 	 */
 	public function setup_globals( $args = [] ) {
 		parent::setup_globals(
 			[
-				'notification_callback' => [ $this, 'format_notifications' ],
+				'notification_callback' => [ $this, 'format_notification' ],
 			]
 		);
+	}
+
+	/**
+	 * Register all known notification classes & set up actions for each.
+	 */
+	public function setup_actions() {
+		parent::setup_actions();
+
+		$classes = [
+			 'class-hc-notification-join-group-site.php'         => 'HC_Notification_Join_Group_Site',
+			 'class-hc-notification-new-user-email-settings.php' => 'HC_Notification_New_User_Email_Settings',
+		];
+
+		foreach ( $classes as $include => $class ) {
+			require_once $include;
+
+			$inst = new $class;
+			$inst->setup_actions();
+
+			// These filters are applied by $this->format_notification() when the notification is rendered.
+			add_filter( 'hc_notifications_' . $class::$action . '_link', [ $class, 'filter_link' ], 10, 6 );
+			add_filter( 'hc_notifications_' . $class::$action . '_text', [ $class, 'filter_text' ], 10, 6 );
+		}
 	}
 
 	/**
@@ -48,29 +73,17 @@ class HC_Notifications_Component extends BP_Component {
 	 *                                  notifications; 'array' for WP Toolbar. Default: 'string'.
 	 * @return string|array Formatted notifications.
 	 */
-	public function format_notifications( $action, $item_id, $secondary_item_id, $total_items, $format ) {
+	public function format_notification( $action, $item_id, $secondary_item_id, $total_items, $format ) {
 		$link = apply_filters_ref_array( "hc_notifications_${action}_link", func_get_args() );
 		$text = apply_filters_ref_array( "hc_notifications_${action}_text", func_get_args() );
 
-		if ( 'new_user_notification_settings' === $action ) {
-			$link = trailingslashit( bp_loggedin_user_domain() . bp_get_settings_slug() ) . 'notifications';
-			$text = 'Welcome! Be sure to review your email preferences.';
-		}
-
 		if ( 'string' === $format ) {
-			$content = sprintf(
-				'<a href="%1$s" title="%2$s">%2$s</a>',
-				$link,
-				$text
-			);
+			$retval = sprintf( '<a href="%s">%s</a>', $link, $text );
 		} else {
-			$content = [
-				'text' => $text,
-				'link' => $link,
-			];
+			$retval = [ 'text' => $text, 'link' => $link, ];
 		}
 
-		return $content;
+		return $retval;
 	}
 
 	/**

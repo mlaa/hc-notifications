@@ -46,11 +46,13 @@ class HC_Notifications_Component extends BP_Component {
 		require_once 'class-hc-notification.php';
 
 		// List of classes that extend the base notification class.
-		$classes = apply_filters( 'hc_notifications_classes', [
-			'class-hc-notification-join-group-site.php'         => 'HC_Notification_Join_Group_Site',
-			'class-hc-notification-join-mla-forum.php'          => 'HC_Notification_Join_MLA_Forum',
-			'class-hc-notification-new-user-email-settings.php' => 'HC_Notification_New_User_Email_Settings',
-		] );
+		$classes = apply_filters(
+			'hc_notifications_classes', [
+				'class-hc-notification-join-group-site.php' => 'HC_Notification_Join_Group_Site',
+				'class-hc-notification-join-mla-forum.php' => 'HC_Notification_Join_MLA_Forum',
+				'class-hc-notification-new-user-email-settings.php' => 'HC_Notification_New_User_Email_Settings',
+			]
+		);
 
 		foreach ( $classes as $include => $class ) {
 			require_once $include;

@@ -31,10 +31,10 @@ class HC_Notification_Join_MLA_Forum extends HC_Notification {
 
 			$result = bp_notifications_add_notification(
 				[
-					'user_id'           => $user_id,
-					'component_name'    => 'hc_notifications',
-					'component_action'  => self::$action,
-					'item_id'           => $group_id,
+					'user_id'          => $user_id,
+					'component_name'   => 'hc_notifications',
+					'component_action' => self::$action,
+					'item_id'          => $group_id,
 				]
 			);
 		};
@@ -74,7 +74,7 @@ class HC_Notification_Join_MLA_Forum extends HC_Notification {
 	 */
 	public static function filter_text( $action, $item_id, $secondary_item_id, $total_items, $format ) {
 		$group = groups_get_group( $item_id );
-		$text = sprintf(
+		$text  = sprintf(
 			'You\'ve been added to "%s" because of your MLA forum membership.',
 			$group->name
 		);

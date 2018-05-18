@@ -39,7 +39,7 @@ class HC_Notification_Join_MLA_Forum extends HC_Notification {
 			);
 		};
 
-		add_action( 'groups_join_groupp', $add_notification, 10, 2 );
+		add_action( 'groups_join_group', $add_notification, 10, 2 );
 	}
 
 	/**

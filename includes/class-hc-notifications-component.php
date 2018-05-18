@@ -51,6 +51,7 @@ class HC_Notifications_Component extends BP_Component {
 				'class-hc-notification-join-group-site.php' => 'HC_Notification_Join_Group_Site',
 				'class-hc-notification-join-mla-forum.php' => 'HC_Notification_Join_MLA_Forum',
 				'class-hc-notification-new-user-email-settings.php' => 'HC_Notification_New_User_Email_Settings',
+				'class-hc-notification-newsletter-opt-out.php' => 'HC_Notification_Newsletter_Opt_Out',
 			]
 		);
 

@@ -80,10 +80,7 @@ class HC_Notification_Join_MLA_Forum extends HC_Notification {
 		);
 
 		if ( groups_is_user_admin( get_current_user_id(), $item_id ) ) {
-			$text .= sprintf(
-				' Because you\'re a primary member of this forum, you cannot leave this group directly on the Commons - change your forums on %s and your Commons membership will be automatically updated.',
-				'mla.org'
-			);
+			$text .= ' Because you\'re a primary member of this forum, you cannot leave this group directly on the Commons - change your forums on mla.org and your Commons membership will be automatically updated.';
 		}
 
 		return $text;

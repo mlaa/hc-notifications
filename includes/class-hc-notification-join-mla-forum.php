@@ -8,24 +8,24 @@
 /**
  * Notification.
  */
-class HC_Notification_Join_Group_Site extends HC_Notification {
+class HC_Notification_Join_MLA_Forum extends HC_Notification {
 
 	/**
 	 * Component action.
 	 *
 	 * @var string
 	 */
-	public static $action = 'new_group_site_member';
+	public static $action = 'join_mla_forum';
 
 	/**
 	 * Set up notification actions.
 	 */
 	public static function setup_actions() {
 		$add_notification = function( $group_id, $user_id ) {
-			$blog_id = get_groupblog_blog_id( $group_id );
+			$mla_oid = groups_get_groupmeta( $group_id, 'mla_oid' );
 
-			// Bail if this group has no blog.
-			if ( ! $blog_id ) {
+			// Only add notifications for MLA forums.
+			if ( ! $mla_oid ) {
 				return;
 			}
 
@@ -35,12 +35,11 @@ class HC_Notification_Join_Group_Site extends HC_Notification {
 					'component_name'    => 'hc_notifications',
 					'component_action'  => self::$action,
 					'item_id'           => $group_id,
-					'secondary_item_id' => $blog_id,
 				]
 			);
 		};
 
-		add_action( 'groups_join_group', $add_notification, 10, 2 );
+		add_action( 'groups_join_groupp', $add_notification, 10, 2 );
 	}
 
 	/**
@@ -57,7 +56,7 @@ class HC_Notification_Join_Group_Site extends HC_Notification {
 	 * @return string Value of the notification link href attribute.
 	 */
 	public static function filter_link( $action, $item_id, $secondary_item_id, $total_items, $format ) {
-		return get_site_url( $secondary_item_id );
+		return bp_get_group_permalink( groups_get_group( $item_id ) );
 	}
 
 	/**
@@ -74,17 +73,20 @@ class HC_Notification_Join_Group_Site extends HC_Notification {
 	 * @return string Text content of the notification link.
 	 */
 	public static function filter_text( $action, $item_id, $secondary_item_id, $total_items, $format ) {
-		switch_to_blog( $secondary_item_id );
-		$blog_name = get_bloginfo( 'name' );
-		$caps      = array_keys( get_user_meta( get_current_user_id(), 'wp_capabilities', true ) );
-		$role      = $caps[0]; // Just report the first role for now.
-		restore_current_blog();
-
-		return sprintf(
-			'You\'ve been added to the group site "%s" with the role of %s.',
-			$blog_name,
-			$role
+		$group = groups_get_group( $item_id );
+		$text = sprintf(
+			'You\'ve been added to "%s" because of your MLA forum membership.',
+			$group->name
 		);
+
+		if ( groups_is_user_admin( get_current_user_id(), $item_id ) ) {
+			$text .= sprintf(
+				' Because you\'re a primary member of this forum, you cannot leave this group directly on the Commons - change your forums on %s and your Commons membership will be automatically updated.',
+				'mla.org'
+			);
+		}
+
+		return $text;
 	}
 
 }

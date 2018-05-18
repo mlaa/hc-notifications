@@ -7,6 +7,8 @@
 
 /**
  * Extend this class to add a new notification.
+ *
+ * Be sure to register your new notification class in HC_Notifications_Component->setup_actions().
  */
 class HC_Notification {
 

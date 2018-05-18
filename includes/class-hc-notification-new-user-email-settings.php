@@ -1,6 +1,6 @@
 <?php
 /**
- * When a user joins a group, tell them about the group site if one exists.
+ * Remind users to review their email settings.
  *
  * @package Hc_Notifications
  */
@@ -35,7 +35,7 @@ class HC_Notification_New_User_Email_Settings extends HC_Notification {
 	}
 
 	/**
-	 * Link to user notification settings.
+	 * Filter link.
 	 *
 	 * @param string $action            The kind of notification being rendered.
 	 * @param int    $item_id           The primary item id.
@@ -52,7 +52,7 @@ class HC_Notification_New_User_Email_Settings extends HC_Notification {
 	}
 
 	/**
-	 * Welcome! Now get to work.
+	 * Filter text.
 	 *
 	 * @param string $action            The kind of notification being rendered.
 	 * @param int    $item_id           The primary item id.

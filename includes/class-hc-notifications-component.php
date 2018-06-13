@@ -62,8 +62,8 @@ class HC_Notifications_Component extends BP_Component {
 			$inst->setup_actions();
 
 			// These filters are applied by $this->format_notification() when the notification is rendered.
-			add_filter( 'hc_notifications_' . $class::$action . '_link', [ $class, 'filter_link' ], 10, 6 );
-			add_filter( 'hc_notifications_' . $class::$action . '_text', [ $class, 'filter_text' ], 10, 6 );
+			add_filter( $this->id . '_' . $class::$action . '_link', [ $class, 'filter_link' ], 10, 6 );
+			add_filter( $this->id . '_' . $class::$action . '_text', [ $class, 'filter_text' ], 10, 6 );
 		}
 	}
 

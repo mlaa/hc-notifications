@@ -22,7 +22,7 @@ class HC_Notification_Join_Group_Site extends HC_Notification {
 	 */
 	public static function setup_actions() {
 		$add_notification = function( $group_id, $user_id ) {
-			$blog_id = get_groupblog_blog_id( $group_id );
+			$blog_id = groups_get_groupmeta( $group_id, 'groupblog_blog_id' );
 
 			// Bail if this group has no blog.
 			if ( ! $blog_id ) {
@@ -32,7 +32,7 @@ class HC_Notification_Join_Group_Site extends HC_Notification {
 			$result = bp_notifications_add_notification(
 				[
 					'user_id'           => $user_id,
-					'component_name'    => 'hc_notifications',
+					'component_name'    => buddypress()->hc_notifications->id,
 					'component_action'  => self::$action,
 					'item_id'           => $group_id,
 					'secondary_item_id' => $blog_id,

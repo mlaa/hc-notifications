@@ -21,6 +21,10 @@ class HC_Notification_Join_Group_Site extends HC_Notification {
 	 * Set up notification actions.
 	 */
 	public static function setup_actions() {
+		if ( ! is_multisite() ) {
+			return;
+		}
+
 		$add_notification = function( $group_id, $user_id ) {
 			$blog_id = groups_get_groupmeta( $group_id, 'groupblog_blog_id' );
 

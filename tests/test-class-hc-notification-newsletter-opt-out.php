@@ -39,8 +39,6 @@ class HC_Notification_Newsletter_Opt_Out_Test extends BP_UnitTestCase {
 				buddypress()->hc_notifications->id === $n->component_name &&
 				HC_Notification_Newsletter_Opt_Out::$action === $n->component_action
 			) {
-				var_dump('found');
-				var_dump( $n );
 				$count++;
 			}
 		}

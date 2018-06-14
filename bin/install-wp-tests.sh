@@ -54,7 +54,7 @@ if [ ! -d $BP_DIR/src ]; then
 fi
 
 # Create WP database.
-mysql -u root -proot << EOF
+mysql -u root << EOF
 create database IF NOT EXISTS $DB_NAME;
 grant usage on $DB_NAME.* to $DB_USER@$DB_HOST identified by "$DB_PASS";
 grant all privileges on $DB_NAME.* to $DB_USER@$DB_HOST;

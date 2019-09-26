@@ -98,14 +98,14 @@ class HC_Notification_Join_MLA_Forum extends HC_Notification {
                 }
 
                 $text  = sprintf(
-                        'You\'ve been added to "%s" because of your MLA "%s"  membership.',
+                        'You\'ve been added to "%s" because of your MLA "%s" membership.',
                         $group->name, 
                         $phrase
                 );
 
-                if ( groups_is_user_admin( get_current_user_id(), $item_id ) ) {
-                        $text .= ' Because you\'re a primary member of this forum, you cannot leave this group directly on the Commons - change your forums on mla.org and your Commons members$
-                }
+		if ( groups_is_user_admin( get_current_user_id(), $item_id ) ) {
+			$text .= ' Because you\'re a primary member of this forum, you cannot leave this group directly on the Commons - change your forums on mla.org and your Commons membership will be automatically updated.';
+		}
 
                 return $text;
         }

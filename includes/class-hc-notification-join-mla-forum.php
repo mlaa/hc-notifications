@@ -81,18 +81,33 @@ class HC_Notification_Join_MLA_Forum extends HC_Notification {
 	 *
 	 * @return string Text content of the notification link.
 	 */
-	public static function filter_text( $action, $item_id, $secondary_item_id, $total_items, $format ) {
-		$group = groups_get_group( $item_id );
-		$text  = sprintf(
-			'You\'ve been added to "%s" because of your MLA forum membership.',
-			$group->name
-		);
+	 public static function filter_text( $action, $item_id, $secondary_item_id, $total_items, $format ) {
+                $group = groups_get_group( $item_id );
+                
+                $group_type = groups_get_groupmeta( $item_id, 'mla_group_type', true );
 
-		if ( groups_is_user_admin( get_current_user_id(), $item_id ) ) {
-			$text .= ' Because you\'re a primary member of this forum, you cannot leave this group directly on the Commons - change your forums on mla.org and your Commons membership will be automatically updated.';
-		}
+                switch ($group_type) {
+                        case 'mla organization':
+                           $phrase = 'committee';
+                           break;
+                        case 'forum':
+                           $phrase = 'forum';
+                           break;
+                        default: 
+                           $phrase = 'group';
+                }
 
-		return $text;
-	}
+                $text  = sprintf(
+                        'You\'ve been added to "%s" because of your MLA "%s"  membership.',
+                        $group->name, 
+                        $phrase
+                );
+
+                if ( groups_is_user_admin( get_current_user_id(), $item_id ) ) {
+                        $text .= ' Because you\'re a primary member of this forum, you cannot leave this group directly on the Commons - change your forums on mla.org and your Commons members$
+                }
+
+                return $text;
+        }
 
 }

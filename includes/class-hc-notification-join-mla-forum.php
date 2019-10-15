@@ -82,12 +82,15 @@ class HC_Notification_Join_MLA_Forum extends HC_Notification {
          * @return string Text content of the notification link.
          */
          public static function filter_text( $action, $item_id, $secondary_item_id, $total_items, $format ) {
+		
+		$group = groups_get_group( $item_id );
+
 		if ( class_exists( 'Humanities_Commons' ) ) {
                 	$society = strtoupper(Humanities_Commons::$society_id);
 	        }
 
                 $text  = sprintf(
-                        'You\'ve been added to "%s" based on your "%s" membership record',
+                        'You\'ve been added to "%s" based on your %s membership record',
                         $group->name, 
                         $society
                 );

@@ -86,8 +86,6 @@ class HC_Notification_Join_MLA_Forum extends HC_Notification {
                 	$society = strtoupper(Humanities_Commons::$society_id);
 	        }
 
-		error_log($society);
-
                 $text  = sprintf(
                         'You\'ve been added to "%s" based on your "%s" membership record',
                         $group->name, 

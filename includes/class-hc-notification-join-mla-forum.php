@@ -69,30 +69,36 @@ class HC_Notification_Join_MLA_Forum extends HC_Notification {
 	}
 
 	/**
-	 * Filter text.
-	 *
-	 * @param string $action            The kind of notification being rendered.
-	 * @param int    $item_id           The primary item id.
-	 * @param int    $secondary_item_id The secondary item id.
-	 * @param int    $total_items       The total number of messaging-related notifications
-	 *                                  waiting for the user.
-	 * @param string $format            Return value format. 'string' for BuddyBar-compatible
-	 *                                  notifications; 'array' for WP Toolbar. Default: 'string'.
-	 *
-	 * @return string Text content of the notification link.
-	 */
-	public static function filter_text( $action, $item_id, $secondary_item_id, $total_items, $format ) {
-		$group = groups_get_group( $item_id );
-		$text  = sprintf(
-			'You\'ve been added to "%s" because of your MLA forum membership.',
-			$group->name
-		);
+         * Filter text.
+         *
+         * @param string $action            The kind of notification being rendered.
+         * @param int    $item_id           The primary item id.
+         * @param int    $secondary_item_id The secondary item id.
+         * @param int    $total_items       The total number of messaging-related notifications
+         *                                  waiting for the user.
+         * @param string $format            Return value format. 'string' for BuddyBar-compatible
+         *                                  notifications; 'array' for WP Toolbar. Default: 'string'.
+         *
+         * @return string Text content of the notification link.
+         */
+         public static function filter_text( $action, $item_id, $secondary_item_id, $total_items, $format ) {
+		if ( class_exists( 'Humanities_Commons' ) ) {
+                	$society = strtoupper(Humanities_Commons::$society_id);
+	        }
 
-		if ( groups_is_user_admin( get_current_user_id(), $item_id ) ) {
-			$text .= ' Because you\'re a primary member of this forum, you cannot leave this group directly on the Commons - change your forums on mla.org and your Commons membership will be automatically updated.';
-		}
+		error_log($society);
 
-		return $text;
-	}
+                $text  = sprintf(
+                        'You\'ve been added to "%s" based on your "%s" membership record',
+                        $group->name, 
+                        $society
+                );
+
+                if ( groups_is_user_admin( get_current_user_id(), $item_id ) ) {
+                        $text .= ' You are an admin of this group.';
+                } 
+
+                return $text;
+        }
 
 }

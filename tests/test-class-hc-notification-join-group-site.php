@@ -19,6 +19,10 @@ class HC_Notification_Join_Group_Site_Test extends BP_UnitTestCase {
 			return;
 		}
 
+		if ( function_exists( 'wp_initialize_site' ) ) {
+			$this->setExpectedDeprecated( 'wpmu_new_blog' );
+		}
+
 		$u = $this->factory()->user->create();
 		$g = $this->factory()->group->create();
 		$b = $this->factory()->blog->create();
@@ -29,7 +33,6 @@ class HC_Notification_Join_Group_Site_Test extends BP_UnitTestCase {
 		for ( $i = 0; $i < 5; $i++ ) {
 			groups_join_group( $g, $u );
 			$this->assertTrue( (bool) groups_is_user_member( $u, $g ) );
-
 			groups_leave_group( $g, $u );
 			$this->assertFalse( (bool) groups_is_user_member( $u, $g ) );
 		}
@@ -48,6 +51,7 @@ class HC_Notification_Join_Group_Site_Test extends BP_UnitTestCase {
 		}
 
 		$this->assertSame( 1, $count );
+
 	}
 
 	/**
@@ -57,6 +61,10 @@ class HC_Notification_Join_Group_Site_Test extends BP_UnitTestCase {
 		if ( ! is_multisite() ) {
 			$this->assertTrue( true );
 			return;
+		}
+		
+		if ( function_exists( 'wp_initialize_site' ) ) {
+			$this->setExpectedDeprecated( 'wpmu_new_blog' );
 		}
 
 		$u = $this->factory()->user->create();

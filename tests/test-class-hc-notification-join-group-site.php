@@ -19,9 +19,39 @@ class HC_Notification_Join_Group_Site_Test extends BP_UnitTestCase {
 			return;
 		}
 
-		//$u = $this->factory()->user->create();
-		//$g = $this->factory()->group->create();
+		if ( function_exists( 'wp_initialize_site' ) ) {
+			$this->setExpectedDeprecated( 'wpmu_new_blog' );
+		}
+
+		$u = $this->factory()->user->create();
+		$g = $this->factory()->group->create();
 		$b = $this->factory()->blog->create();
+
+		groups_update_groupmeta( $g, 'groupblog_blog_id', $b );
+
+		// Join & leave the group a few times to fire the corresponding events which would trigger notifications.
+		for ( $i = 0; $i < 5; $i++ ) {
+			groups_join_group( $g, $u );
+			$this->assertTrue( (bool) groups_is_user_member( $u, $g ) );
+			groups_leave_group( $g, $u );
+			$this->assertFalse( (bool) groups_is_user_member( $u, $g ) );
+		}
+
+		$notifications = bp_notifications_get_all_notifications_for_user( $u );
+
+		$count = 0;
+
+		foreach ( $notifications as $n ) {
+			if (
+				buddypress()->hc_notifications->id === $n->component_name &&
+				HC_Notification_Join_Group_Site::$action === $n->component_action
+			) {
+				$count++;
+			}
+		}
+
+		$this->assertSame( 1, $count );
+
 	}
 
 	/**
@@ -31,6 +61,10 @@ class HC_Notification_Join_Group_Site_Test extends BP_UnitTestCase {
 		if ( ! is_multisite() ) {
 			$this->assertTrue( true );
 			return;
+		}
+		
+		if ( function_exists( 'wp_initialize_site' ) ) {
+			$this->setExpectedDeprecated( 'wpmu_new_blog' );
 		}
 
 		$u = $this->factory()->user->create();

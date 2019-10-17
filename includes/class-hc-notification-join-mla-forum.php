@@ -83,31 +83,21 @@ class HC_Notification_Join_MLA_Forum extends HC_Notification {
 	 */
 	 public static function filter_text( $action, $item_id, $secondary_item_id, $total_items, $format ) {
                 $group = groups_get_group( $item_id );
-                
-                $group_type = groups_get_groupmeta( $item_id, 'mla_group_type', true );
 
-                switch ($group_type) {
-                        case 'mla organization':
-                           $phrase = 'committee';
-                           break;
-                        case 'forum':
-                           $phrase = 'forum';
-                           break;
-                        default: 
-                           $phrase = 'group';
+                if ( class_exists( 'Humanities_Commons' ) ) {
+                        $society = strtoupper(Humanities_Commons::$society_id);
                 }
 
                 $text  = sprintf(
-                        'You\'ve been added to "%s" because of your MLA "%s" membership.',
+                        'You\'ve been added to "%s" based on your %s membership record',
                         $group->name, 
-                        $phrase
+                        $society
                 );
 
-		if ( groups_is_user_admin( get_current_user_id(), $item_id ) ) {
-			$text .= ' Because you\'re a primary member of this forum, you cannot leave this group directly on the Commons - change your forums on mla.org and your Commons membership will be automatically updated.';
-		}
+                if ( groups_is_user_admin( get_current_user_id(), $item_id ) ) {
+                        $text .= ' You are an admin of this group.';
+                } 
 
                 return $text;
-        }
-
+	}
 }

@@ -14,6 +14,10 @@ class HC_Notification_Join_Group_Site_Test extends BP_UnitTestCase {
 	 * Ensure only one notification is created regardless of multiple join/leave events.
 	 */
 	public function test_only_one_notification_after_multiple_events() {
+		if ( ! is_multisite() ) {
+			$this->assertTrue( true );
+			return;
+		}
 	}
 
 	/**

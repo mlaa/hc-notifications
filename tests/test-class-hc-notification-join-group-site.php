@@ -18,9 +18,9 @@ class HC_Notification_Join_Group_Site_Test extends BP_UnitTestCase {
 			$this->assertTrue( true );
 			return;
 		}
-		
-		$u = $this->factory()->user->create();
-		$g = $this->factory()->group->create();
+
+		//$u = $this->factory()->user->create();
+		//$g = $this->factory()->group->create();
 		$b = $this->factory()->blog->create();
 	}
 
